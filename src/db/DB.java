@@ -41,7 +41,6 @@ public class DB {
         }catch (IOException ioException){
             throw new DbException("Error: " + ioException.getMessage());
         }
-
     }
 
     public static void closeStatement(Statement statement){
