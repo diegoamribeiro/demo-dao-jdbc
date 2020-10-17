@@ -1,10 +1,8 @@
 package application;
 
 import model.entities.Department;
-import model.entities.Seller;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Program {
