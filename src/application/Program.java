@@ -1,6 +1,9 @@
 package application;
 
+import model.dao.DaoFactory;
+import model.dao.SellerDao;
 import model.entities.Department;
+import model.entities.Seller;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -17,6 +20,8 @@ public class Program {
                 new Date(),
                 2100.00,
                 department);
+
+        SellerDao sellerDao = DaoFactory.createSellerDao();
 
         System.out.println(department);
         System.out.println(seller);
