@@ -8,7 +8,6 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
-
 public class Program {
     public static void main(String[] args) throws ParseException {
 
@@ -43,5 +42,13 @@ public class Program {
         Seller seller1 = new Seller(null, "Greg", "greg@gmail.com", new Date(), 4000.00, department);
         sellerDao.insert(seller1);
         System.out.println("Inserted new id = " + seller1.getId());
+
+        System.out.println();
+
+        System.out.println("|=== TEST 5 - Seller sellerUpdate ===|\n");
+        seller = sellerDao.findById(1);
+        seller.setName("Martha Wayne");
+        sellerDao.update(seller);
+        System.out.println("Updated new id = " + seller.getName());
     }
 }

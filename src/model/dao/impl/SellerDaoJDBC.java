@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class SellerDaoJDBC implements SellerDao {
 
-    private Connection connection;
+    private final Connection connection;
 
     public SellerDaoJDBC(Connection connection){
         this.connection = connection;
@@ -47,7 +47,7 @@ public class SellerDaoJDBC implements SellerDao {
                 }
                 DB.closeResultSet(resultSet);
             }else {
-                throw  new DbException("Erro inesperado: No rows affected");
+                throw  new DbException("Unexpected error: No rows affected");
             }
         }catch (SQLException sqlException){
             throw new DbException(sqlException.getMessage());
@@ -58,12 +58,32 @@ public class SellerDaoJDBC implements SellerDao {
 
     @Override
     public void update(Seller seller) {
+        PreparedStatement mPreparedStatement = null;
 
+        try{
+            mPreparedStatement = connection.prepareStatement("" +
+                    "UPDATE seller "+
+                    "SET Name = ?, Email = ?, BirthDate = ?, BaseSalary = ?, DepartmentId = ? "+
+                    "WHERE id = ?");
+
+            mPreparedStatement.setString(1, seller.getName());
+            mPreparedStatement.setString(2, seller.getEmail());
+            mPreparedStatement.setDate(3, new Date(seller.getBirthDate().getTime()));
+            mPreparedStatement.setDouble(4, seller.getBaseSalary());
+            mPreparedStatement.setInt(5, seller.getDepartment().getId());
+            mPreparedStatement.setInt(6, seller.getId());
+
+            mPreparedStatement.executeUpdate();
+
+        }catch (SQLException sqlException){
+            throw new DbException(sqlException.getMessage());
+        }finally {
+            DB.closeStatement(mPreparedStatement);
+        }
     }
 
     @Override
     public void deleteById(Integer id) {
-
     }
 
     @Override
@@ -179,7 +199,6 @@ public class SellerDaoJDBC implements SellerDao {
                     department = instantiateDepartment(resultSet);
                     departmentMap.put(resultSet.getInt(("DepartmentId")), department);
                 }
-
 
                 Seller seller = instantiateSeller(resultSet, department);
                 sellerList.add(seller);
