@@ -4,8 +4,8 @@ import model.dao.DaoFactory;
 import model.dao.SellerDao;
 import model.entities.Department;
 import model.entities.Seller;
-
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 
@@ -37,7 +37,11 @@ public class Program {
             System.out.println(list);
         }
 
+        System.out.println();
 
-
+        System.out.println("|=== TEST 4 - Seller sellerInsert ===|\n");
+        Seller seller1 = new Seller(null, "Greg", "greg@gmail.com", new Date(), 4000.00, department);
+        sellerDao.insert(seller1);
+        System.out.println("Inserted new id = " + seller1.getId());
     }
 }
