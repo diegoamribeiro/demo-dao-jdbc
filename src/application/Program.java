@@ -50,5 +50,12 @@ public class Program {
         seller.setName("Martha Wayne");
         sellerDao.update(seller);
         System.out.println("Updated new id = " + seller.getName());
+
+        System.out.println();
+
+        System.out.println("|=== TEST 6 - Seller sellerDelete ===|\n");
+        int sellerDelete = seller.getId();
+        sellerDao.deleteById(sellerDelete);
+        System.out.println("Deleted!");
     }
 }
