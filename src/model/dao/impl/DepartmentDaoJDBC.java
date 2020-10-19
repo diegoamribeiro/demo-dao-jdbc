@@ -16,7 +16,6 @@ public class DepartmentDaoJDBC implements DepartmentDao {
         this.connection = connection;
     }
 
-
     @Override
     public void insert(Department department) {
         PreparedStatement preparedStatement = null;
@@ -41,17 +40,50 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 
         }catch (SQLException sqlException){
             throw new DbException(sqlException.getMessage());
+        }finally {
+            DB.closeStatement(preparedStatement);
         }
     }
 
     @Override
     public void update(Department department) {
+        PreparedStatement preparedStatement = null;
 
+        try{
+            preparedStatement = connection.prepareStatement("" +
+                    "UPDATE department "+
+                    "SET Name = ? "+
+                    "WHERE Id = ?");
+
+            preparedStatement.setString(1, department.getName());
+            preparedStatement.setInt(2, department.getId());
+
+            preparedStatement.executeUpdate();
+
+        }catch (SQLException sqlException){
+            throw new DbException(sqlException.getMessage());
+        }finally {
+            DB.closeStatement(preparedStatement);
+        }
     }
 
     @Override
     public void deleteById(Integer id) {
+        PreparedStatement preparedStatement = null;
 
+        try{
+            preparedStatement = connection.prepareStatement("" +
+                    "DELETE FROM department WHERE id = ?");
+
+            preparedStatement.setInt(1, id);
+
+            preparedStatement.executeUpdate();
+
+        }catch (SQLException sqlException){
+            throw new DbException(sqlException.getMessage());
+        }finally {
+            DB.closeStatement(preparedStatement);
+        }
     }
 
     @Override
